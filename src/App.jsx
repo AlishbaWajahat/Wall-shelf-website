@@ -71,8 +71,8 @@ function Navigation({ cart, setShowCart }) {
             <Link to="/products">Products</Link>
           </li>
           {cart.length > 0 && (
-            <li className={`cart-nav-item ${location.pathname === '/checkout' ? 'active' : ''}`}>
-              <Link to="/checkout">Cart ({cart.length})</Link>
+            <li className="cart-nav-item" onClick={() => setShowCart(true)}>
+              <span style={{cursor: 'pointer'}}>Cart ({cart.length})</span>
             </li>
           )}
         </ul>
@@ -118,10 +118,10 @@ function App() {
 
         {/* Floating Cart Button */}
         {cart.length > 0 && (
-          <Link to="/checkout" className="floating-cart">
+          <button className="floating-cart" onClick={() => setShowCart(true)}>
             <span className="cart-icon">🛒</span>
             <span className="cart-badge">{cart.length}</span>
-          </Link>
+          </button>
         )}
 
         <ParticleEffects />
@@ -147,7 +147,7 @@ function App() {
           <p>&copy; 2024 ShelfCo. All rights reserved.</p>
         </footer>
 
-        {/* Cart Modal (kept for backward compatibility) */}
+        {/* Cart Modal - The Awesome Popup! */}
         {showCart && cart.length > 0 && (
           <div className="cart-modal" onClick={() => setShowCart(false)}>
             <div className="cart-modal-content" onClick={(e) => e.stopPropagation()}>
@@ -175,12 +175,13 @@ function App() {
                   <span>Total:</span>
                   <span className="total-price">${getTotalPrice()}</span>
                 </div>
-                <Link to="/checkout" onClick={() => setShowCart(false)}>
-                  <button className="checkout-btn pulse">
-                    <span>Go to Checkout</span>
-                    <span className="arrow">→</span>
-                  </button>
-                </Link>
+                <button
+                  className="checkout-btn pulse"
+                  onClick={handleCheckout}
+                >
+                  <span>Proceed to Checkout</span>
+                  <span className="arrow">→</span>
+                </button>
                 <p className="checkout-note">
                   Secure payment via Whop
                 </p>
