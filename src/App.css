@@ -1218,6 +1218,69 @@ button {
   .cart-count {
     font-size: 0.75rem;
   }
+
+  /* Cart Modal Mobile Optimization */
+  .cart-modal-content-mobile {
+    padding: 1.2rem;
+    max-height: 70vh;
+    border-radius: 20px 20px 0 0;
+  }
+
+  .close-cart-mobile {
+    width: 30px;
+    height: 30px;
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .cart-modal-content-mobile h2 {
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+  }
+
+  .cart-items-mobile {
+    margin-bottom: 1rem;
+  }
+
+  .cart-item-mobile {
+    gap: 0.8rem;
+    padding: 0.8rem;
+    border-radius: 10px;
+    margin-bottom: 0.7rem;
+  }
+
+  .cart-item-mobile img {
+    width: 50px;
+    height: 50px;
+    border-radius: 8px;
+  }
+
+  .cart-item-info-mobile h4 {
+    font-size: 0.9rem;
+    margin-bottom: 0.3rem;
+  }
+
+  .cart-item-info-mobile p {
+    font-size: 1rem;
+  }
+
+  .cart-item-mobile button {
+    width: 28px;
+    height: 28px;
+    font-size: 1rem;
+  }
+
+  .cart-total-mobile {
+    padding: 1rem 0;
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+  }
+
+  .checkout-btn-mobile {
+    padding: 1rem;
+    font-size: 0.95rem;
+    border-radius: 10px;
+  }
 }
 
 /* ========== DESKTOP/TABLET RESPONSIVE ========== */
