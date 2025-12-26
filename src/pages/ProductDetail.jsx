@@ -48,7 +48,7 @@ function ProductDetail({ addToCart }) {
 
     const interval = setInterval(() => {
       nextImage()
-    }, 4000)
+    }, 3000) // 3 seconds auto-slide
 
     return () => clearInterval(interval)
   }, [isAutoPlaying, product.images.length, isTransitioning])
