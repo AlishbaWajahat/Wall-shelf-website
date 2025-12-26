@@ -1,85 +1,8 @@
-import { useState, useEffect } from 'react'
-import { BrowserRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom'
+import { useState } from 'react'
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'
 import Home from './pages/Home'
-import Products from './pages/Products'
-import Checkout from './pages/Checkout'
+import ProductDetail from './pages/ProductDetail'
 import './App.css'
-
-function ParticleEffects() {
-  useEffect(() => {
-    const homeSection = document.querySelector('.home-section')
-    if (!homeSection) return
-
-    const createParticle = () => {
-      const particle = document.createElement('div')
-      const types = ['particle', 'particle-star', 'particle-circle', 'particle-square']
-      particle.className = types[Math.floor(Math.random() * types.length)]
-      particle.style.left = Math.random() * 100 + '%'
-      particle.style.animationDuration = (Math.random() * 4 + 3) + 's'
-      particle.style.opacity = Math.random() * 0.6 + 0.2
-      const size = Math.random() * 6 + 2
-      particle.style.width = size + 'px'
-      particle.style.height = size + 'px'
-      homeSection.appendChild(particle)
-
-      setTimeout(() => particle.remove(), 7000)
-    }
-
-    const interval = setInterval(createParticle, 200)
-    return () => clearInterval(interval)
-  }, [])
-
-  useEffect(() => {
-    const homeSection = document.querySelector('.home-section')
-    if (!homeSection) return
-
-    const createShape = () => {
-      const shape = document.createElement('div')
-      shape.className = 'floating-shape'
-      shape.style.left = Math.random() * 100 + '%'
-      shape.style.top = Math.random() * 100 + '%'
-      shape.style.animationDuration = (Math.random() * 10 + 15) + 's'
-      shape.style.animationDelay = (Math.random() * 5) + 's'
-      const size = Math.random() * 100 + 50
-      shape.style.width = size + 'px'
-      shape.style.height = size + 'px'
-      homeSection.appendChild(shape)
-    }
-
-    for (let i = 0; i < 8; i++) {
-      createShape()
-    }
-  }, [])
-
-  return null
-}
-
-function Navigation({ cart, setShowCart }) {
-  const location = useLocation()
-
-  return (
-    <nav className="navbar">
-      <div className="nav-container">
-        <Link to="/" className="logo-link">
-          <h1 className="logo">ShelfCo</h1>
-        </Link>
-        <ul className="nav-menu">
-          <li className={location.pathname === '/' ? 'active' : ''}>
-            <Link to="/">Home</Link>
-          </li>
-          <li className={location.pathname === '/products' ? 'active' : ''}>
-            <Link to="/products">Products</Link>
-          </li>
-          {cart.length > 0 && (
-            <li className="cart-nav-item" onClick={() => setShowCart(true)}>
-              <span style={{cursor: 'pointer'}}>Cart ({cart.length})</span>
-            </li>
-          )}
-        </ul>
-      </div>
-    </nav>
-  )
-}
 
 function App() {
   const [cart, setCart] = useState([])
@@ -87,11 +10,6 @@ function App() {
 
   const addToCart = (product) => {
     setCart([...cart, product])
-    const cartBtn = document.querySelector('.floating-cart')
-    if (cartBtn) {
-      cartBtn.classList.add('cart-bounce')
-      setTimeout(() => cartBtn.classList.remove('cart-bounce'), 600)
-    }
   }
 
   const removeFromCart = (index) => {
@@ -114,78 +32,51 @@ function App() {
   return (
     <Router>
       <div className="app">
-        <Navigation cart={cart} setShowCart={setShowCart} />
-
-        {/* Floating Cart Button */}
-        {cart.length > 0 && (
-          <button className="floating-cart" onClick={() => setShowCart(true)}>
-            <span className="cart-icon">🛒</span>
-            <span className="cart-badge">{cart.length}</span>
-          </button>
-        )}
-
-        <ParticleEffects />
+        {/* Simple Header */}
+        <header className="header">
+          <Link to="/" className="logo">ShelfCo</Link>
+          {cart.length > 0 && (
+            <button className="cart-icon-header" onClick={() => setShowCart(true)}>
+              🛒 <span className="cart-count">{cart.length}</span>
+            </button>
+          )}
+        </header>
 
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/products" element={<Products addToCart={addToCart} />} />
-          <Route
-            path="/checkout"
-            element={
-              <Checkout
-                cart={cart}
-                removeFromCart={removeFromCart}
-                getTotalPrice={getTotalPrice}
-                handleCheckout={handleCheckout}
-              />
-            }
-          />
+          <Route path="/product/wall-shelf" element={<ProductDetail addToCart={addToCart} />} />
         </Routes>
 
-        {/* Footer */}
-        <footer className="footer">
-          <p>&copy; 2024 ShelfCo. All rights reserved.</p>
+        {/* Simple Footer */}
+        <footer className="footer-mobile">
+          <p>&copy; 2024 ShelfCo. Premium Wall Shelves.</p>
         </footer>
 
-        {/* Cart Modal - The Awesome Popup! */}
+        {/* Cart Modal */}
         {showCart && cart.length > 0 && (
-          <div className="cart-modal" onClick={() => setShowCart(false)}>
-            <div className="cart-modal-content" onClick={(e) => e.stopPropagation()}>
-              <button className="close-cart" onClick={() => setShowCart(false)}>✕</button>
-              <h2>Your Cart</h2>
-              <div className="cart-items">
+          <div className="cart-modal-mobile" onClick={() => setShowCart(false)}>
+            <div className="cart-modal-content-mobile" onClick={(e) => e.stopPropagation()}>
+              <button className="close-cart-mobile" onClick={() => setShowCart(false)}>✕</button>
+              <h2>Your Cart ({cart.length})</h2>
+              <div className="cart-items-mobile">
                 {cart.map((item, index) => (
-                  <div key={index} className="cart-item slide-in" style={{animationDelay: `${index * 0.1}s`}}>
-                    <img src={item.image} alt={item.name} className="cart-item-image" />
-                    <div className="cart-item-info">
+                  <div key={index} className="cart-item-mobile">
+                    <img src={item.images[0]} alt={item.name} />
+                    <div className="cart-item-info-mobile">
                       <h4>{item.name}</h4>
                       <p>${item.price}</p>
                     </div>
-                    <button
-                      className="remove-btn"
-                      onClick={() => removeFromCart(index)}
-                    >
-                      ✕
-                    </button>
+                    <button onClick={() => removeFromCart(index)}>✕</button>
                   </div>
                 ))}
               </div>
-              <div className="cart-summary">
-                <div className="total">
-                  <span>Total:</span>
-                  <span className="total-price">${getTotalPrice()}</span>
-                </div>
-                <button
-                  className="checkout-btn pulse"
-                  onClick={handleCheckout}
-                >
-                  <span>Proceed to Checkout</span>
-                  <span className="arrow">→</span>
-                </button>
-                <p className="checkout-note">
-                  Secure payment via Whop
-                </p>
+              <div className="cart-total-mobile">
+                <span>Total:</span>
+                <span>${getTotalPrice()}</span>
               </div>
+              <button className="checkout-btn-mobile" onClick={handleCheckout}>
+                Checkout Now
+              </button>
             </div>
           </div>
         )}
